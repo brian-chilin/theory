@@ -1,0 +1,201 @@
+name: Brian binary -> quantity
+init: q0
+accept: q998
+
+//-------DELTA FUNCTION:
+//[current_state],[read_symbol]
+//[new_state],[write_symbol],[>|<|-]
+
+// The triangle and triangle with dot are the hollow bullet and bullet
+// {0, 1, ◦, •, x, λ, π, θ, ψ, ⊔aka_, μ}
+
+
+q0,0
+q1,0,<
+
+q0,1
+q1,1,<
+
+q1,_
+q2,◦,<
+
+q2,_
+q3,λ,>
+
+//q3 doesnt modify until ⊔
+q3,◦
+q3,◦,>
+q3,0
+q3,0,>
+q3,1
+q3,1,>
+
+q3,_
+q4,•,<
+
+//q4 ignores read inputs, scanning for 0 or 1 or ◦ terminator
+q4,θ
+q4,θ,<
+q4,ψ
+q4,ψ,<
+
+q4,◦
+q997,◦,>
+
+q4,•
+q4,•,<
+
+q4,0
+q21,θ,>
+
+q4,1
+q61,ψ,>
+
+//q997 just moves right lots
+q997,0
+q997,0,>
+q997,1
+q997,1,>
+q997,θ
+q997,θ,>
+q997,ψ
+q997,ψ,>
+
+q997,•
+q998,_,<
+
+//q998 cleans everything up
+q998,θ
+q998,_,<
+q998,ψ
+q998,_,<
+
+q998,◦
+q998,_,<
+q998,λ
+q998,_,<
+
+//q21 moves left to start the doubler
+q21,0
+q21,0,<
+q21,1
+q21,1,<
+q21,θ
+q21,θ,<
+q21,ψ
+q21,ψ,<
+q21,•
+q21,•,<
+
+q21,◦
+q22,◦,<
+
+//q22 finds the next lambda to copy. if there's it's only pi then you know is finished
+q22,x
+q22,x,<
+q22,π
+q25,π,>
+q22,λ
+q23,x,<
+
+// get to the left end to put another lambda
+q23,λ
+q23,λ,<
+q23,π
+q23,π,<
+q23,_
+q24,π,>
+
+//get back to ◦
+q24,◦
+q22,◦,<
+q24,x
+q24,x,>
+q24,λ
+q24,λ,>
+q24,π
+q24,π,>
+
+//q25
+q25,π
+q25,π,>
+q25,x
+q25,x,>
+q25,◦
+q26,◦,<
+
+//fix the x and pi situation to all lambdas. cup is delimiter
+q26,π
+q26,λ,<
+q26,x
+q26,λ,<
+q26,_
+q27,_,>
+
+//q27 moves to the right to find the input we process, theta or psi
+q27,λ
+q27,λ,>
+q27,◦
+q27,◦,>
+q27,0
+q27,0,>
+q27,1
+q27,1,>
+
+q27,θ
+q4,θ,> //leaving doubler after seeing theta, so computing the 0 input symbol
+
+q27,ψ
+q4,ψ,> // leaving the doubler after seeing psi, so computing the 1 input symbol
+
+
+//q61 starts the add 1's branch.
+//this first block moves left until you hit a lambda or _
+q61,0
+q61,0,<
+q61,1
+q61,1,<
+q61,◦
+q61,◦,<
+q61,•
+q61,•,<
+q61,θ
+q61,θ,<
+q61,ψ
+q61,ψ,<
+q61,μ
+q61,μ,<
+
+q61,λ
+q62,μ,>
+
+q61,_
+q64,_,>
+
+//q62 moves all the way to the right until you hit _ so you can add 1 and move to q63
+q62,0
+q62,0,>
+q62,1
+q62,1,>
+q62,◦
+q62,◦,>
+q62,•
+q62,•,>
+q62,θ
+q62,θ,>
+q62,ψ
+q62,ψ,>
+q62,μ
+q62,μ,>
+
+q62,_
+q61,1,<
+
+//q64 is when the copy is done. the loop left lots of mu's to clean up back into lambdas
+q64,μ
+q64,λ,>
+
+q64,◦
+q21,◦,> //for this case of q64:
+// we hit the input start so we know we cleaned up the lambdas. go right since
+// the start of the doubler knows what to do as long as its from the right of the ◦
