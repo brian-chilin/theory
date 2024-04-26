@@ -1,0 +1,62 @@
+//LOAD AN EXAMPLE TO TRY
+//then load an input and click play
+
+//Syntax:
+
+//-------CONFIGURATION
+name: brian 0^n 1^n
+init: q0
+accept: q6
+
+//-------DELTA FUNCTION:
+q0, 0
+q1, θ, >
+
+q0, ψ
+q3, ψ, <
+
+
+q1, 0
+q1, 0, >
+q1, ψ
+q1, ψ, >
+
+q1, 1
+q2, ψ, <
+
+
+q2, ψ
+q2, ψ, <
+q2, 0
+q2, 0, <
+
+q2, θ
+q0, θ, >
+
+
+q3, θ
+q3, θ, <
+
+q3, _
+q4, _, >
+
+q4, θ
+q4, θ, >
+q4, ψ
+q5, ψ, >
+
+q5, ψ
+q5, ψ, >
+
+q5, _
+q6, _, <
+
+// < = left
+// > = right
+// - = hold
+// use underscore for blank cells
+
+//States and symbols are case-sensitive
+
+//Load your code and click COMPILE.
+//or load an example (top-right).
